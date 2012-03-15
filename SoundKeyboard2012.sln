@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundKeyboard2012", "SoundKeyboard2012\SoundKeyboard2012.csproj", "{732DD21C-EACA-4FB6-819E-1B6F5202C89B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9EC6EF7-981C-4B59-81AA-56C8AE575E70}"
+	ProjectSection(SolutionItems) = preProject
+		README = README
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{732DD21C-EACA-4FB6-819E-1B6F5202C89B}.Debug|x86.ActiveCfg = Debug|x86
+		{732DD21C-EACA-4FB6-819E-1B6F5202C89B}.Debug|x86.Build.0 = Debug|x86
+		{732DD21C-EACA-4FB6-819E-1B6F5202C89B}.Release|x86.ActiveCfg = Release|x86
+		{732DD21C-EACA-4FB6-819E-1B6F5202C89B}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

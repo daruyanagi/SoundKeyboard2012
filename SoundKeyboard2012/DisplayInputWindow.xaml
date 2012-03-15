@@ -1,0 +1,18 @@
+﻿<Window x:Class="SoundKeyboard2012.DisplayInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DisplayInputWindow"
+        Height="120" Width="640"
+        Topmost="True" ShowInTaskbar="False" WindowStyle="None" AllowsTransparency="True" Icon="/SoundKeyboard2012;component/SoundKeyboard.ico">
+    <Grid>
+        <TextBlock Name="textBlockDisplayInput" FontSize="48" Text="Input Display"
+                   Margin="15, 0" VerticalAlignment="Center">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="15" ></DropShadowEffect>
+            </TextBlock.Effect>
+        </TextBlock>
+    </Grid>
+    <Window.Background>
+        <SolidColorBrush />
+    </Window.Background>
+</Window>
