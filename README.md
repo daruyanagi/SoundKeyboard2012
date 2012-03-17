@@ -1,16 +1,16 @@
 ## 概要
 
-![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120311/20120311000132.png)
+![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120315/20120315233735.png)
 
 **「SoundKeyboard 2012」**は、キーのタイプで音を鳴らすタスクトレイ常駐型ソフトです((もともとは @subsfn 氏が Delphi で制作したものですが、だいぶ古くなったので C# で作り直しました。))。
 
 ## おもな機能
 
-![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120311/20120311001450.png)
+![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120315/20120315233933.png)
 
 主要な機能は以下のとおりです。
 
-* ミュート機能（［Ctrl］＋［Alt］＋［M］キー）
+* ミュート機能（<del>［Ctrl］＋［Alt］＋［M］キー</del>）
 * デスクトップに入力キーを表示する機能
 * サウンドパックの切り替え機能
 
@@ -18,7 +18,7 @@ Windows 7 64bit版でのみ動作を確認しています。
 
 ## サウンドパックについて
 
-![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120311/20120311001437.png)
+![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120315/20120315233928.png)
 
 キーにサウンドを割り当てるには、<b>サウンドパック</b>を作成します。といっても大仰なものではなくて、単にフォルダへWAVEファイルを入れておくだけでです。
 
@@ -50,6 +50,10 @@ Windows 7 64bit版でのみ動作を確認しています。
 
 ## 変更履歴
 
+* 2.1.1（12/03/17）
+	*   ［修正］バージョン情報の表示
+	*   ［修正］メインウィンドウがほかのウィンドウの背面に隠れて表示される（TopMost = true）
+	*   ［追加］作者サイトへのアクセスボタン
 * 2.1.0（12/03/17）
 	*   ［修正］サウンドパックの選択・削除ボタンが利用できない場合は無効に（IRoutedCommandの実装）
 	*   ［修正］二重起動に関する不具合

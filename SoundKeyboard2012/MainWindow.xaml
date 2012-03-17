@@ -6,7 +6,7 @@
         Loaded="Window_Loaded"
         Closing="Window_Closing"
         Closed="Window_Closed" Icon="/SoundKeyboard2012;component/SoundKeyboard.ico"
-        WindowState="Minimized">
+        WindowState="Minimized" WindowStartupLocation="CenterScreen" Topmost="True">
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static s:MainWindow.SelectSoundPackCommand}"
@@ -141,8 +141,9 @@
                     <StackPanel Grid.Column="1" Grid.RowSpan="2" Margin="6">
                         <TextBlock Text="{Binding ProductName}" Margin="6" FontSize="24" />
                         <TextBlock Text="{Binding Description}" Margin="6, -12, 6, 6" />
-                        <TextBlock Text="{Binding Version}" Margin="6" Name="textBlockVersion" />
+                        <TextBlock Margin="6" Name="textBlockVersion" />
                         <TextBlock Text="{Binding Copyright}" Margin="6" />
+                        <Button Content="作者のWebサイトへ" Margin="24" Height="32" Click="Button_Click" />
                     </StackPanel>
                 </Grid>
             </TabItem>

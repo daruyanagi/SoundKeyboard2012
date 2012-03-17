@@ -49,14 +49,25 @@ namespace SoundKeyboard2012
             groupBoxDisplayInputSettings.DataContext = App.DisplayInput;
             listBoxSoundPacks.ItemsSource = App.SoundPacks;
             comboBoxDisplayPosition.ItemsSource = Enum.GetValues(typeof(DisplayInputWindow.Position));
-            tabItemAbout.DataContext = new AssemblyInfo(Assembly.GetExecutingAssembly());
-            
-            if (!ApplicationDeployment.IsNetworkDeployed)
+
+            var assembly_info = new AssemblyInfo(Assembly.GetExecutingAssembly());
             {
-                Version v = ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                textBlockVersion.Text = string.Format(
-                    "ネットワークインストールバージョン {0}.{1}.{2}.{3}",
-                    v.Major, v.Minor, v.Build, v.Revision);
+                tabItemAbout.DataContext = assembly_info;
+
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    var v = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                    textBlockVersion.Text = string.Format(
+                        "オンラインインストールバージョン {0}.{1}.{2}.{3}",
+                        v.Major, v.Minor, v.Build, v.Revision);
+                }
+                else
+                {
+                    var v = assembly_info.Version;
+                    textBlockVersion.Text = string.Format(
+                        "オフラインインストールバージョン {0}.x 系統",
+                        v.Major, v.Minor, v.Build, v.Revision);
+                }
             }
 
             GlobalKeybordMonitor.KeyDown += (_sender, _e) => { Title = _e.KeyData.ToString(); };
@@ -124,6 +135,11 @@ namespace SoundKeyboard2012
         private void RemoveSoundPackCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             App.SoundPacks.RemoveAt(listBoxSoundPacks.SelectedIndex);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://daruyanagi.net/");
         }
     }
 }
