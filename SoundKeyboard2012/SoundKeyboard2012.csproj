@@ -29,7 +29,7 @@
     <InstallUrl>http://download.daruyanagi.net/SoundKeyboard2012/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -380,7 +380,7 @@
     <NotifyPropertyWeaverMsBuildTask.WeavingTask />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /-Y "$(SolutionDir)README" "$(TargetDir)README"
-copy /-Y "$(SolutionDir)README" "C:\Users\Yanagi\Dropbox\Apps\Daruboard\Archives\SoundKeyboard 2010.md"</PostBuildEvent>
+    <PostBuildEvent>copy /-Y "$(SolutionDir)README.md" "$(TargetDir)README.txt"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
