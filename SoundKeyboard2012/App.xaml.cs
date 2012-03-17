@@ -9,6 +9,8 @@ using System.IO;
 using System.Threading;
 using Forms = System.Windows.Forms;
 using System.Drawing;
+using System.ComponentModel;
+using System.Windows.Navigation;
 
 namespace SoundKeyboard2012
 {
@@ -25,6 +27,8 @@ namespace SoundKeyboard2012
         public static DisplayInputWindow DisplayInput = new DisplayInputWindow();
 
         private static Mutex mMutex = null;
+        private static bool mMutexCreatedNew = false;
+
         private static readonly Forms.NotifyIcon mNotifyIcon = new Forms.NotifyIcon();
         private static readonly Forms.ContextMenuStrip mContextMenuStrip = new Forms.ContextMenuStrip();
 
@@ -59,17 +63,24 @@ namespace SoundKeyboard2012
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
-        {
+        { 
+            // To prevent App.MainWindow being set to DisplayInputWindow,
+            // Set "new MainWindow()" manually at first.
             MainWindow = new MainWindow();
 
             // 01. Single Instance only allowed.
 
-            bool create_new; mMutex = new Mutex(true, APP_SIGNATURE, out create_new);
-            if (!create_new) App.Current.Shutdown();
+            mMutex = new Mutex(true, APP_SIGNATURE, out mMutexCreatedNew);
+            if (!mMutexCreatedNew)
+            {
+                MessageBox.Show("二重起動しました。アプリケーションを終了します。",
+                    APP_SIGNATURE, MessageBoxButton.OK, MessageBoxImage.Error);
+                App.Current.Shutdown();
+            }
 
-            // 02. Load SoundPacks/SoundEnine Objects
+            // 02. Load SoundPacks
 
-            try /*-> load SoundPacks */
+            try
             {
                 SoundPacks = SoundPacks.Load(ConfigDir);
             }
@@ -80,7 +91,10 @@ namespace SoundKeyboard2012
                 foreach (var d in new DirectoryInfo(sounds_dir).GetDirectories())
                     SoundPacks.Add(new SoundPack(d.FullName));
             }
-            try /*-> load SoundEngine */
+
+            // 03. Load SoundEngine
+
+            try
             {
                 SoundEngine = SoundEngine.Load(ConfigDir);
             }
@@ -108,6 +122,8 @@ namespace SoundKeyboard2012
                 }
             };
 
+            // 04. Load DisplayInputWindow
+
             try
             {
                 DisplayInput.Load(ConfigDir);
@@ -119,25 +135,24 @@ namespace SoundKeyboard2012
                 DisplayInput.Visible = true;
             }
 
-            // 03. Prepare NotifyIcon/ContextMenuStrip
-
-            mContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
+            // 05. Prepare NotifyIcon
 
             mNotifyIcon.Text = APP_SIGNATURE;
+            mNotifyIcon.ContextMenuStrip = mContextMenuStrip;
+            mNotifyIcon.Visible = true;
             mNotifyIcon.Icon = new Icon(
                 Path.Combine(GetStartupPath(), "SoundKeyboard.ico"),
-                new System.Drawing.Size(16, 16));
-            mNotifyIcon.ContextMenuStrip = mContextMenuStrip;
+                new System.Drawing.Size(16, 16)
+            );
             mNotifyIcon.DoubleClick += new EventHandler(ToggleMainWindowVisible);
-            mNotifyIcon.Visible = true;
+            mContextMenuStrip.Opening += new CancelEventHandler(ContextMenuStrip_Opening);
+
+            ContextMenuStrip_Opening(); // Call once to initialize mContextMenuStrip.
+
+            App.ShowBaloonTip("起動しました");
         }
 
-        private void Application_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
-        {
-        }
-
-
-        void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        void ContextMenuStrip_Opening(object sender = null, CancelEventArgs e = null)
         {
             Forms.ToolStripItem item;
             mContextMenuStrip.Items.Clear();
@@ -208,9 +223,16 @@ namespace SoundKeyboard2012
 
         void ToggleMainWindowVisible(object sender, EventArgs e)
         {
-            MainWindow.Visibility = (MainWindow.Visibility == Visibility.Visible)
-                ? Visibility.Hidden
-                : Visibility.Visible;
+            if (MainWindow.WindowState == WindowState.Minimized)
+            {
+                MainWindow.WindowState = WindowState.Normal;
+                MainWindow.Show();
+            }
+            else
+            {
+                MainWindow.Hide();
+                MainWindow.WindowState = WindowState.Minimized;
+            }
         }
 
         void ExitApplication(object sender, EventArgs e)
@@ -228,7 +250,7 @@ namespace SoundKeyboard2012
 
             mNotifyIcon.Visible = false;
 
-            if (mMutex != null) mMutex.ReleaseMutex();
+            if (mMutexCreatedNew && mMutex != null) mMutex.ReleaseMutex();
         }
     }
 }

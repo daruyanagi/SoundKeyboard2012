@@ -18,6 +18,7 @@ using System.Windows.Interop;
 using System.Media;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Reflection;
+using System.Deployment.Application;
 
 namespace SoundKeyboard2012
 {
@@ -26,7 +27,15 @@ namespace SoundKeyboard2012
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool mForceClose = false;
+        public static RoutedUICommand AddSoundPackCommand = new RoutedUICommand(
+            "追加(_A)", "AddSoundPack", typeof(MainWindow)
+        );
+        public static RoutedUICommand SelectSoundPackCommand = new RoutedUICommand(
+            "選択(_D)", "SelectSoundPack", typeof(MainWindow)
+        );
+        public static RoutedUICommand RemoveSoundPackCommand = new RoutedUICommand(
+            "削除(_D)", "RemoveSoundPack", typeof(MainWindow)
+        );
 
         public MainWindow()
         {
@@ -41,24 +50,25 @@ namespace SoundKeyboard2012
             listBoxSoundPacks.ItemsSource = App.SoundPacks;
             comboBoxDisplayPosition.ItemsSource = Enum.GetValues(typeof(DisplayInputWindow.Position));
             tabItemAbout.DataContext = new AssemblyInfo(Assembly.GetExecutingAssembly());
+            
+            if (!ApplicationDeployment.IsNetworkDeployed)
+            {
+                Version v = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                textBlockVersion.Text = string.Format(
+                    "ネットワークインストールバージョン {0}.{1}.{2}.{3}",
+                    v.Major, v.Minor, v.Build, v.Revision);
+            }
 
             GlobalKeybordMonitor.KeyDown += (_sender, _e) => { Title = _e.KeyData.ToString(); };
-
-            Visibility = Visibility.Hidden;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (mForceClose)
-            {
-                e.Cancel = false;
-            }
-            else
-            {
-                e.Cancel = true;
-                Visibility = Visibility.Hidden;
-                App.ShowBaloonTip("メインウィンドウを最小化しました。");
-            }
+            e.Cancel = true;
+            Hide();
+            WindowState = WindowState.Minimized;
+
+            App.ShowBaloonTip("メインウィンドウを最小化しました");
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -66,19 +76,41 @@ namespace SoundKeyboard2012
 
         }
 
-        private void SelectSoundPack(object sender, RoutedEventArgs e)
+        private void Minimize(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                App.SoundEngine.Location = App.SoundPacks[listBoxSoundPacks.SelectedIndex].Location;
-            }
-            catch (Exception exception)
-            {
-                App.ShowBaloonTip(exception.Message);
-            }
+            Close();
         }
 
-        private void AddSoundPack(object sender, RoutedEventArgs e)
+        private void ForceClose(object sender, RoutedEventArgs e)
+        {
+            App.Current.Shutdown();
+        }
+
+        private void SlectSoundPackCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute =
+                0 <= listBoxSoundPacks.SelectedIndex &&
+                listBoxSoundPacks.SelectedIndex < App.SoundPacks.Count;
+        }
+
+        private void AddSoundPackCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void RemoveBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute =
+                0 <= listBoxSoundPacks.SelectedIndex &&
+                listBoxSoundPacks.SelectedIndex < App.SoundPacks.Count;
+        }
+
+        private void SlectSoundPackCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            App.SoundEngine.Location = App.SoundPacks[listBoxSoundPacks.SelectedIndex].Location;
+        }
+
+        private void AddSoundPackCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
@@ -89,26 +121,9 @@ namespace SoundKeyboard2012
             }
         }
 
-        private void DeleteSoundPack(object sender, RoutedEventArgs e)
+        private void RemoveSoundPackCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            try
-            {
-                App.SoundPacks.RemoveAt(listBoxSoundPacks.SelectedIndex);
-            }
-            catch (Exception exception)
-            {
-                App.ShowBaloonTip(exception.Message);
-            }
-        }
-
-        private void Minimize(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void ForceClose(object sender, RoutedEventArgs e)
-        {
-            mForceClose = true; Close();
+            App.SoundPacks.RemoveAt(listBoxSoundPacks.SelectedIndex);
         }
     }
 }
