@@ -75,15 +75,12 @@ namespace SoundKeyboard2012
             PropertyChanged += new PropertyChangedEventHandler(
                 DisplayInputWindow_PropertyChanged
             );
-
-            GlobalKeybordMonitor.KeyDown += (_sender, _e) =>
-            {
-                textBlockDisplayInput.Text = _e.KeyData.ToString();
-            };
         }
 
         void CalclateDisplayPosition()
         {
+            Width = Screen.PrimaryScreen.Bounds.Width - DisplayMargin * 2;
+
             switch (DisplayPosition)
             {
                 case DisplayInputWindow.Position.TopLeft:
@@ -120,7 +117,14 @@ namespace SoundKeyboard2012
             }
         }
 
-        public Key Key { get; set; }
+        public Key[] Keys
+        {
+            set
+            {
+                var k = value; /* TODO: Any filtering */
+                textBlockDisplayInput.Text = string.Join(" + ", k);
+            }
+        }
 
         public bool Visible
         {

@@ -6,16 +6,6 @@ namespace SoundKeyboard2012
 {
     public static class GlobalKeybordMonitor
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct KBDLLHOOKSTRUCT
-        {
-            public int vkCode;
-            public int scanCode;
-            public int flags;
-            public int time;
-            public IntPtr dwExtraInfo;
-        }
-
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
 
@@ -41,27 +31,7 @@ namespace SoundKeyboard2012
         public const int WM_SYSKEYDOWN = 0x0104;
         public const int WM_SYSKEYUP = 0x0105;
 
-        public sealed class GlobalKeyEventArgs : EventArgs
-        {
-            internal GlobalKeyEventArgs(KBDLLHOOKSTRUCT keyData)
-            {
-                KeyCode = keyData.vkCode;
-                KeyData = KeyInterop.KeyFromVirtualKey(keyData.vkCode);
-                Flags = keyData.flags;
-                ScanCode = keyData.scanCode;
-                Time = keyData.time;
-                Handled = false;
-            }
-
-            public int KeyCode  { get; private set; }
-            public Key KeyData  { get; private set; }
-            public int Flags    { get; private set; }
-            public int ScanCode { get; private set; }
-            public int Time     { get; private set; }
-            public bool Handled { get; set; }
-        }
-
-        private static IntPtr _Hook;
+        public static IntPtr HookHandle;
         private static LowLevelKeyboardProc _HookProc = new LowLevelKeyboardProc(HookProc);
 
         // public static event EventHandler<GlobalKeyEventArgs> SysKeyDown;
@@ -69,16 +39,28 @@ namespace SoundKeyboard2012
         // public static event EventHandler<GlobalKeyEventArgs> SysKeyUp;
         public static event EventHandler<GlobalKeyEventArgs> KeyUp;
 
-        public static bool Enabled { get { return _Hook != IntPtr.Zero; } }
+        public static bool Enabled { get { return HookHandle != IntPtr.Zero; } }
 
         static GlobalKeybordMonitor()
         {
-            _Hook = SetWindowsHookEx(WH_KEYBOARD_LL, _HookProc, GetModuleHandle(null), 0);
-            
+            InitializeKeyboardHook();
+        }
+
+        public static void InitializeKeyboardHook()
+        {
+            if (Enabled) FinalizeKeyboardHook();
+                
+            HookHandle = SetWindowsHookEx(WH_KEYBOARD_LL, _HookProc, GetModuleHandle(null), 0);
+
             AppDomain.CurrentDomain.DomainUnload += (_sender, _e) =>
             {
-                if (_Hook != IntPtr.Zero) UnhookWindowsHookEx(_Hook);
+                FinalizeKeyboardHook();
             };
+        }
+
+        public static void FinalizeKeyboardHook()
+        {
+            if (Enabled) UnhookWindowsHookEx(HookHandle);
         }
 
         private static IntPtr HookProc(int nCode, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam)
@@ -105,7 +87,7 @@ namespace SoundKeyboard2012
 
             return handled
                 ? (IntPtr) 1
-                : CallNextHookEx(_Hook, nCode, wParam, ref lParam);
+                : CallNextHookEx(HookHandle, nCode, wParam, ref lParam);
         }
 
         private static void CallEvent(
@@ -113,5 +95,35 @@ namespace SoundKeyboard2012
         {
             if (event_handler != null) event_handler(null, event_args);
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct KBDLLHOOKSTRUCT
+    {
+        public int vkCode;
+        public int scanCode;
+        public int flags;
+        public int time;
+        public IntPtr dwExtraInfo;
+    }
+
+    public sealed class GlobalKeyEventArgs : EventArgs
+    {
+        internal GlobalKeyEventArgs(KBDLLHOOKSTRUCT keyData)
+        {
+            KeyCode = keyData.vkCode;
+            KeyData = KeyInterop.KeyFromVirtualKey(keyData.vkCode);
+            Flags = keyData.flags;
+            ScanCode = keyData.scanCode;
+            Time = keyData.time;
+            Handled = false;
+        }
+
+        public int KeyCode { get; private set; }
+        public Key KeyData { get; private set; }
+        public int Flags { get; private set; }
+        public int ScanCode { get; private set; }
+        public int Time { get; private set; }
+        public bool Handled { get; set; }
     }
 }

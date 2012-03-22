@@ -21,27 +21,38 @@ namespace SoundKeyboard2012
 
         private void RegisterGlobalKeyboardEvent()
         {
-            GlobalKeybordMonitor.KeyDown += (_sender, _e) =>
+            GlobalKeybordMonitor.KeyDown
+                += new EventHandler<GlobalKeyEventArgs>(GlobalKeybordMonitor_KeyDown);
+            GlobalKeybordMonitor.KeyUp
+                += new EventHandler<GlobalKeyEventArgs>(GlobalKeybordMonitor_KeyUp);
+        }
+
+        private void GlobalKeybordMonitor_KeyDown(object sender, GlobalKeyEventArgs e)
+        {
+            if (mPressedKeys.Contains(e.KeyData)) return;
+
+            var k = e.KeyData.ToString().ToLower();
+
+            if (!MuteEnabled)
             {
-                if (mPressedKeys.Contains(_e.KeyData)) return;
-                
-                var k = _e.KeyData.ToString().ToLower();
+                if (mSounds.Keys.Contains(k))
+                    mSounds[k].Play();
+                else if (DefaultSoundEnabled)
+                    mSounds["default"].Play();
+            }
 
-                if (!MuteEnabled)
-                {
-                    if (mSounds.Keys.Contains(k))
-                        mSounds[k].Play();
-                    else if (DefaultSoundEnabled)
-                        mSounds["default"].Play();
-                }
+            mPressedKeys.Add(e.KeyData);
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("PressedKeys"));
+        }
 
-                mPressedKeys.Add(_e.KeyData);
-            };
-
-            GlobalKeybordMonitor.KeyUp += (_sender, _e) =>
-            {
-                mPressedKeys.Remove(_e.KeyData);
-            };
+        private void GlobalKeybordMonitor_KeyUp(object sender, GlobalKeyEventArgs e)
+        {
+            mPressedKeys.Remove(e.KeyData);
+            /*
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("PressedKeys"));
+             */ 
         }
 
         public SoundEngine()
@@ -136,6 +147,12 @@ namespace SoundKeyboard2012
         #region property MuteEnabled
 
         public bool MuteEnabled { get; set; }
+
+        #endregion
+
+        #region property PressedKeys
+
+        public Key[] PressedKeys { get { return mPressedKeys.ToArray(); } }
 
         #endregion
     }

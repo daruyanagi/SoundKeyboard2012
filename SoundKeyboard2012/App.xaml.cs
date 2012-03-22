@@ -11,6 +11,7 @@ using Forms = System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Navigation;
+using System.Windows.Input;
 
 namespace SoundKeyboard2012
 {
@@ -31,6 +32,8 @@ namespace SoundKeyboard2012
 
         private static readonly Forms.NotifyIcon mNotifyIcon = new Forms.NotifyIcon();
         private static readonly Forms.ContextMenuStrip mContextMenuStrip = new Forms.ContextMenuStrip();
+        private HotKey mHotKeyMute;
+        private HotKey mHotKeyDisplayInput;
 
         public static string ConfigDir
         {
@@ -119,6 +122,9 @@ namespace SoundKeyboard2012
                         ShowBaloonTip("デフォルトサウンドを {0} にしました",
                             SoundEngine.MuteEnabled ? "有効" : "無効");
                         break;
+                    case "PressedKeys":
+                        DisplayInput.Keys = SoundEngine.PressedKeys;
+                        break;
                 }
             };
 
@@ -128,7 +134,7 @@ namespace SoundKeyboard2012
             {
                 DisplayInput.Load(ConfigDir);
             }
-            catch
+            catch /* Load Default Value */
             {
                 DisplayInput.DisplayMargin = 25;
                 DisplayInput.DisplayPosition = DisplayInputWindow.Position.TopRight;
@@ -148,6 +154,18 @@ namespace SoundKeyboard2012
             mContextMenuStrip.Opening += new CancelEventHandler(ContextMenuStrip_Opening);
 
             ContextMenuStrip_Opening(); // Call once to initialize mContextMenuStrip.
+
+            // 06. Register Hotkeys
+
+            mHotKeyMute = new HotKey(
+                Key.S, KeyModifier.Win,
+                (_) => { SoundEngine.MuteEnabled = !SoundEngine.MuteEnabled; }
+            );
+
+            mHotKeyDisplayInput = new HotKey(
+                Key.K, KeyModifier.Win,
+                (_) => { DisplayInput.Visible = !DisplayInput.Visible; }
+            );
 
             App.ShowBaloonTip("起動しました");
         }
@@ -201,9 +219,22 @@ namespace SoundKeyboard2012
             item = new Forms.ToolStripSeparator();
             mContextMenuStrip.Items.Add(item);
 
+            item = new Forms.ToolStripMenuItem(
+                string.Format("キーボードフックの修復: {0}", GlobalKeybordMonitor.HookHandle));
+            item.Click += new EventHandler(RepairKeyboardHook);
+            mContextMenuStrip.Items.Add(item);
+
+            item = new Forms.ToolStripSeparator();
+            mContextMenuStrip.Items.Add(item);
+
             item = new Forms.ToolStripMenuItem("アプリケーションの終了");
             item.Click += new EventHandler(ExitApplication);
             mContextMenuStrip.Items.Add(item);
+        }
+
+        void RepairKeyboardHook(object sender, EventArgs e)
+        {
+            GlobalKeybordMonitor.InitializeKeyboardHook();
         }
 
         void ToggleDisplayInputEnabled(object sender, EventArgs e)
