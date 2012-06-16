@@ -204,7 +204,7 @@ namespace SoundKeyboard2012
             item = new Forms.ToolStripSeparator();
             mContextMenuStrip.Items.Add(item);
 
-            item = new Forms.ToolStripMenuItem("ミュート") { Checked = SoundEngine.MuteEnabled };
+            item = new Forms.ToolStripMenuItem("ミュート") { Checked = SoundEngine.MuteEnabled, ShortcutKeyDisplayString = "Windows + S", };
             item.Click += new EventHandler(ToggleMuteEnabled);
             mContextMenuStrip.Items.Add(item);
 
@@ -212,7 +212,7 @@ namespace SoundKeyboard2012
             item.Click += new EventHandler(ToggleDefaultSoundEnabled);
             mContextMenuStrip.Items.Add(item);
 
-            item = new Forms.ToolStripMenuItem("キー入力の表示") { Checked = DisplayInput.Visible };
+            item = new Forms.ToolStripMenuItem("キー入力の表示") { Checked = DisplayInput.Visible, ShortcutKeyDisplayString = "Windows + K" };
             item.Click += new EventHandler(ToggleDisplayInputEnabled);
             mContextMenuStrip.Items.Add(item);
 

@@ -1,116 +1,122 @@
-## �T�v
+## 概要
 
 ![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120315/20120315233735.png)
 
-**�uSoundKeyboard 2012�v**�́A�L�[�̃^�C�v�ŉ���炷�^�X�N�g���C�풓�^�\�t�g�ł�((���Ƃ��Ƃ� @subsfn ���� Delphi �Ő��삵�����̂ł����A�����ԌÂ��Ȃ����̂� C# �ō�蒼���܂����B))�B
+**「SoundKeyboard 2012」**は、キーのタイプで音を鳴らすタスクトレイ常駐型ソフトです((もともとは @subsfn 氏が Delphi で制作したものですが、だいぶ古くなったので C# で作り直しました。))。
 
-## �����ȋ@�\
+## おもな機能
 
 ![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120315/20120315233933.png)
 
-��v�ȋ@�\�͈ȉ��̂Ƃ���ł��B
+主要な機能は以下のとおりです。
 
-* �~���[�g�@�\�i<del>�mCtrl�n�{�mAlt�n�{�mM�n�L�[</del>�j
-* �f�X�N�g�b�v�ɓ��̓L�[��\������@�\
-* �T�E���h�p�b�N�̐؂�ւ��@�\
+* ミュート機能（<del>［Ctrl］＋［Alt］＋［M］キー</del>）
+* デスクトップに入力キーを表示する機能
+* サウンドパックの切り替え機能
 
-Windows 7 64bit�łł̂ݓ�����m�F���Ă��܂��B
+Windows 7 64bit版でのみ動作を確認しています。
 
-## �T�E���h�p�b�N�ɂ���
+## サウンドパックについて
 
 ![](http://cdn-ak.f.st-hatena.com/images/fotolife/d/daruyanagi/20120315/20120315233928.png)
 
-�L�[�ɃT�E���h�����蓖�Ă�ɂ́A<b>�T�E���h�p�b�N</b>���쐬���܂��B�Ƃ����Ă���Ȃ��̂ł͂Ȃ��āA�P�Ƀt�H���_��WAVE�t�@�C�������Ă��������łł��B
+キーにサウンドを割り当てるには、<b>サウンドパック</b>を作成します。といっても大仰なものではなくて、単にフォルダへWAVEファイルを入れておくだけでです。
 
-�Ⴆ�΁A�u�T�E���h�v�t�H���_�ɁuA.wav�v�����āA������T�E���h�p�b�N�Ɏw�肷��ƁA�mA�n�L�[�����������ɁuA.wav�v���Đ�����܂��B�L�[�̖��O�̓L�[���͂̃f�X�N�g�b�v�\���@�\�𗘗p���Ċm�F���Ȃ�����Ă����ƃC�C�Ǝv���܂��B�T�E���h�p�b�N�̖��O�́A�t�H���_�Ɠ����ł��B�����̗�Ō����΁A�u�T�E���h�v�����̂܂܃T�E���h�p�b�N�̖��O�ɂȂ�܂��B
+例えば、「サウンド」フォルダに「A.wav」を入れて、それをサウンドパックに指定すると、［A］キーを押した時に「A.wav」が再生されます。キーの名前はキー入力のデスクトップ表示機能を利用して確認しながらつけていくとイイと思います。サウンドパックの名前は、フォルダと同じです。さきの例で言えば、「サウンド」がそのままサウンドパックの名前になります。
 
-�f�t�H���g�ł�2�̃T�E���h�p�b�N�����^���Ă��܂��B
+デフォルトでは2つのサウンドパックを収録しています。
 
-*   **alpha**�F�A���t�@�x�b�g�L�[��łƉ����Ȃ�܂��B
-*   **mari_skb**�F�X�y�[�X��G���^�[�Ȃǂ������Ɖ����Ȃ�܂��B
+*   **alpha**：アルファベットキーを打つと音がなります。
+*   **mari_skb**：スペースやエンターなどを押すと音がなります。
 
-�������쐬���Ă���܂����k���^������Ɋ��ӂ������܂��B
+音声を作成してくれました北村真里さんに感謝いたします。
 
-### ���ӎ���
+### 注意事項
 
-*   [[Notice]] .NET Framework 4 Client Profile ���K�v�ł��B�C���X�g�[�����ɃZ�b�g�A�b�v����܂��B
-*   [[important]] �ꕔ�u���E�U�[���C���X�g�[���[��s���ȃt�@�C���Ƃ��Č��o���܂��B�ʂɉ������������d����ł͂��܂��񂪁A�C�ɂȂ���̓_�E�����[�h���T���Ă��������܂��悤���肢�������܂��B - [�I���̍�����A�v�����s���ȃt�@�C���Ă΂�肳��錏�ɂ��� - ����낮](http://daruyanagi.hatenablog.com/entry/2012/03/07/221611)
+*   [[Notice]] .NET Framework 4 Client Profile が必要です。インストール時にセットアップされます。
+*   [[important]] 一部ブラウザーがインストーラーを不正なファイルとして検出します。別に怪しい挙動を仕込んではいませんが、気になる方はダウンロードを控えていただけますようお願いいたします。 - [オレの作ったアプリが不正なファイル呼ばわりされる件について - だるろぐ](http://daruyanagi.hatenablog.com/entry/2012/03/07/221611)
 
-## ToDo �܂��͍���̎����\��
+## ToDo または今後の実装予定
 
-*   <del>�^�X�N�g���C�A�C�R���̒ǉ�</del>
-*   <del>���[�U�[�C���^�[�t�F�C�X�����Ƃ�����</del>
-*   <del>�f�t�H���g�T�E���h�@�\</del>
-*   <del>�L�[�������������ꍇ�̏���</del>�iReactive Extension�H�\�\�͂Ƃ肠�����g��Ȃ������j
-*   <del>��d�N���}�~</del>
-*   <del>�ŏ�����Ԃł̋N��</del>
-*   <del>�T�E���h�p�b�N�̕ۑ��t�H���_�̎w��</del>
-*   <del>�ݒ�̕ۑ��@�\�i�{�̂̐ݒ肪�ۑ�����Ȃ��j</del>
-*   <del>�L�[���͕\���̃J�X�^�}�C�Y</del>
+*   <del>タスクトレイアイコンの追加</del>
+*   <del>ユーザーインターフェイスを何とかする</del>
+*   <del>デフォルトサウンド機能</del>
+*   <del>キーを押し続けた場合の処理</del>（Reactive Extension？――はとりあえず使わなかった）
+*   <del>二重起動抑止</del>
+*   <del>最小化状態での起動</del>
+*   <del>サウンドパックの保存フォルダの指定</del>
+*   <del>設定の保存機能（本体の設定が保存されない）</del>
+*   <del>キー入力表示のカスタマイズ</del>
 
-## �ύX����
+## 変更履歴
 
-* 2.2.0�i12/03/17�j
-	*   �m�ǉ��n�~���[�g�@�\�i�T�C�����g���[�h�j�ւ̃V���[�g�J�b�g�i�mWindows�n�{�mS�n�j
-	*   �m�ǉ��n�L�[�\���@�\�ւ̃V���[�g�J�b�g�i�mWindows�n�{�mK�n�j
-	*   �m�ǉ��n�L�[�\���@�\�ŃL�[�o�C���h��\���\��
-	*   �m�ǉ��n�L�[�t�b�N�̏C���@�\
-* 2.1.1�i12/03/17�j
-	*   �m�C���n�o�[�W�������̕\��
-	*   �m�C���n���C���E�B���h�E���ق��̃E�B���h�E�̔w�ʂɉB��ĕ\�������iTopMost = true�j
-	*   �m�ǉ��n��҃T�C�g�ւ̃A�N�Z�X�{�^��
-* 2.1.0�i12/03/17�j
-	*   �m�C���n�T�E���h�p�b�N�̑I���E�폜�{�^�������p�ł��Ȃ��ꍇ�͖����ɁiIRoutedCommand�̎����j
-	*   �m�C���n��d�N���Ɋւ���s�
-	*   �m�C���n�m���C�����j���[��\���n���j���[���A���񗘗p���ɐ���ɋ@�\���Ȃ�
-	*   �m�C���n�^�X�N�g���C�A�C�R���̃R���e�N�X�g���j���[���A���񗘗p���ɕ\������Ȃ�
-* 2.0.0�i12/03/15�j
-    *   **WPF�ŐV�K��蒼��**
-	*   �m�ǉ��n�ݒ�̎����ۑ��@�\
-	*   �m�ǉ��n�L�[���͕\���̃J�X�^�}�C�Y
-	*   �m�폜�n�~���[�g�@�\�̃V���[�g�J�b�g
-	*   �m�C���n���C���E�B���h�E���\������Ȃ��s��̏C���iHotfix�j
-* 1.6.0.13�i12/03/12�j
-    *   �m�C���n�����ԗ��p���Ă���ƃt�b�N�������ɂȂ�s� - [�Ȃ�Ńt�b�N�A�����Ɏ���ł܂���c�c - ����낮](http://daruyanagi.hatenablog.com/entry/2012/03/12/004612)
-    *   �m�C���nKeyDisplayForm��OS�̃V���b�g�_�E����W����s�
-    *   �m���P�nMutex��GC�ŉ������Ȃ��悤�ɏC��
-* 1.5.0.12�i12/03/10�j
-    *   �m���P�n���[�U�[�C���^�[�t�F�C�X�̉��P�i�o�[�W�����\�L�j
-    *   �m�ǉ��n�f�t�H���g�T�E���h�@�\�B�T���h�����蓖�Ă��Ă��Ȃ��L�[�ŁgDefault.wav�h���Đ�
-    *   �m�ǉ��n�A�C�R�����I���W�i���Ȃ��̂ɕύX
-    *   �m�d�l�ύX�n�����ŃN���X�\����ύX�A���t�@�N�^�����O
-* 1.4.0.12�i12/03/10�j[[Notice]] �\�[�X�̂݌��J
-    *   �m���P�n���[�U�[�C���^�[�t�F�C�X�̈�V
-    *   �m�ǉ��n�f�X�N�g�b�v�ɃL�[���͂�\������@�\��ǉ��B�ݒ��ʂ���͍폜
-    *   �m�ǉ��n�ݒ�̕ۑ��@�\�BSoundPack�t�H���_�̌��ߑł��p�~�B�C�ӂ̃t�H���_��SoundPack�Ƃ��Ďw��\��
-    *   �m�d�l�ύX�nSoundPackList�N���X�̓����d�l���ύX�B�C���^�[�t�F�C�X�ɂ͉e���Ȃ�
-    *   �m�d�l�ύX�n�ŏ�����Ԃł̋N��
-* 1.3.0.11�i12/03/09�j
-    *   �m�C���n32bit�Ŋ��Ŏ��s����ƁA������64bit DLL�����[�h�ł����ɁA�O���[�o���t�b�N������������Ȃ��B�ɂ�������炸 Dispose ���悤�Ƃ��Ă������߁A�A�v���P�[�V�������I���ł��Ȃ������B�inull �Q�Ƃ̕s��̏C���j
-    *   �m�d�l�ύX�n������DLL��32bit�łɍ����ւ��ăr���h�B32bit��Windows�ł����삷�邩������Ȃ��i�����؁j
-* 1.2.0.10�i12/03/09�j
-    *   �~���[�g�@�\�̒ǉ��i�z�b�g�L�[�́mCtrl�n�{�mShift�n�{�mM�n�L�[�j
-    *   �L�[�������������ۂ̋��������P�B�����L�[�E�X�y�[�X�E�G���^�[�E�o�b�N�X�y�[�X�E�f���[�g�̊e�L�[�́A�����A�����čĐ����Ȃ��悤��
-    *   SoundPack/SoundPackList�N���X�̒ǉ��B���j���[�ƃR���{�{�b�N�X�̓��e����������悤�ɉ��P
-* 1.1.0.9�i12/03/09�j
-    * �^�X�N�g���C�A�C�R���̒ǉ�
-    * ��d�N���}�~
-* 1.0.0.6�i12/03/08�j
-    * ���񃊃��[�X
+* 2.3.0（12/06/16）
+	*   ［追加］メニューアイテムにショートカットを表示
+	*   ［追加］キーフックの自動修復機能
+	*   ［修正］Defalt.wav がない場合にデフォルトサウンドの再生を有効化するとアプリケーションがクラッシュする
+	*   ［追加］Defalt.wav のないサウンドパックへ Defalt.wav を追加
+	*   ［修正］README.md を UTF-8 へ
+* 2.2.0（12/03/17）
+	*   ［追加］ミュート機能（サイレントモード）へのショートカット（［Windows］＋［S］）
+	*   ［追加］キー表示機能へのショートカット（［Windows］＋［K］）
+	*   ［追加］キー表示機能でキーバインドを表示可能に
+	*   ［追加］キーフックの修復機能
+* 2.1.1（12/03/17）
+	*   ［修正］バージョン情報の表示
+	*   ［修正］メインウィンドウがほかのウィンドウの背面に隠れて表示される（TopMost = true）
+	*   ［追加］作者サイトへのアクセスボタン
+* 2.1.0（12/03/17）
+	*   ［修正］サウンドパックの選択・削除ボタンが利用できない場合は無効に（IRoutedCommandの実装）
+	*   ［修正］二重起動に関する不具合
+	*   ［修正］［メインメニューを表示］メニューが、初回利用時に正常に機能しない
+	*   ［修正］タスクトレイアイコンのコンテクストメニューが、初回利用時に表示されない
+* 2.0.0（12/03/15）
+    *   **WPFで新規作り直し**
+	*   ［追加］設定の自動保存機能
+	*   ［追加］キー入力表示のカスタマイズ
+	*   ［削除］ミュート機能のショートカット
+	*   ［修正］メインウィンドウが表示されない不具合の修正（Hotfix）
+* 1.6.0.13（12/03/12）
+    *   ［修正］長時間利用しているとフックが無効になる不具合 - [なんでフック、すぐに死んでまうん…… - だるろぐ](http://daruyanagi.hatenablog.com/entry/2012/03/12/004612)
+    *   ［修正］KeyDisplayFormがOSのシャットダウンを妨げる不具合
+    *   ［改善］MutexがGCで回収されないように修正
+* 1.5.0.12（12/03/10）
+    *   ［改善］ユーザーインターフェイスの改善（バージョン表記）
+    *   ［追加］デフォルトサウンド機能。サンドが割り当てられていないキーで“Default.wav”を再生
+    *   ［追加］アイコンをオリジナルなものに変更
+    *   ［仕様変更］内部でクラス構造を変更、リファクタリング
+* 1.4.0.12（12/03/10）[[Notice]] ソースのみ公開
+    *   ［改善］ユーザーインターフェイスの一新
+    *   ［追加］デスクトップにキー入力を表示する機能を追加。設定画面からは削除
+    *   ［追加］設定の保存機能。SoundPackフォルダの決め打ち廃止。任意のフォルダをSoundPackとして指定可能に
+    *   ［仕様変更］SoundPackListクラスの内部仕様が変更。インターフェイスには影響なし
+    *   ［仕様変更］最小化状態での起動
+* 1.3.0.11（12/03/09）
+    *   ［修正］32bit版環境で実行すると、同梱の64bit DLLがロードできずに、グローバルフックが初期化されない。にもかかわらず Dispose しようとしていたため、アプリケーションが終了できなかった。（null 参照の不具合の修正）
+    *   ［仕様変更］同梱のDLLを32bit版に差し替えてビルド。32bit版Windowsでも動作するかもしれない（未検証）
+* 1.2.0.10（12/03/09）
+    *   ミュート機能の追加（ホットキーは［Ctrl］＋［Shift］＋［M］キー）
+    *   キーを押し続けた際の挙動を改善。装飾キー・スペース・エンター・バックスペース・デリートの各キーは、音が連続して再生しないように
+    *   SoundPack/SoundPackListクラスの追加。メニューとコンボボックスの内容が同期するように改善
+* 1.1.0.9（12/03/09）
+    * タスクトレイアイコンの追加
+    * 二重起動抑止
+* 1.0.0.6（12/03/08）
+    * 初回リリース
 
 [[http://daruyanagi.net/SoundKeyboard%202012]]
 
 ---
 
-### �_�E�����[�h
+### ダウンロード
 
-�\�[�X�R�[�h��ClickOnce �`���̃C���X�g�[���[�����J���Ă��܂��B
+ソースコードとClickOnce 形式のインストーラーを公開しています。
 
-#### �o�C�i��
+#### バイナリ
 
 [[http://download.daruyanagi.net/SoundKeyboard2012/|download.daruyanagi.net]]
 
-#### �\�[�X�R�[�h
+#### ソースコード
 
 [[https://github.com/daruyanagi/SoundKeyboard2012/|github.com]]
 

@@ -37,7 +37,7 @@ namespace SoundKeyboard2012
             {
                 if (mSounds.Keys.Contains(k))
                     mSounds[k].Play();
-                else if (DefaultSoundEnabled)
+                else if (DefaultSoundEnabled && mSounds.Keys.Contains("default"))
                     mSounds["default"].Play();
             }
 

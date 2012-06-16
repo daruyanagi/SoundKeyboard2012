@@ -41,9 +41,15 @@ namespace SoundKeyboard2012
 
         public static bool Enabled { get { return HookHandle != IntPtr.Zero; } }
 
+        private static System.Timers.Timer _timer = null;
+
         static GlobalKeybordMonitor()
         {
             InitializeKeyboardHook();
+
+            _timer = new System.Timers.Timer(1000);
+            _timer.Elapsed += (_, __) => { if (!Enabled) InitializeKeyboardHook(); };
+            _timer.Start();
         }
 
         public static void InitializeKeyboardHook()
