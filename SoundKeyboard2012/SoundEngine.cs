@@ -46,9 +46,9 @@ namespace SoundKeyboard2012
             return filename;
         }
 
-        readonly string location = Path.Combine(
+        readonly string save_dir = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
-                "スクリーンショット");
+                "Screenshots");
         const string prefix = "スクリーンショット";
         const string extension = ".png";
 
@@ -68,7 +68,7 @@ namespace SoundKeyboard2012
                 {
                     g.CopyFromScreen(rect.X, rect.Y, 0, 0, rect.Size, CopyPixelOperation.SourceCopy);
                 }
-                image.Save(GetFileNameToSave(location, prefix, extension), ImageFormat.Png);
+                image.Save(GetFileNameToSave(save_dir, prefix, extension), ImageFormat.Png);
 
                 k = "SnapShot".ToLower();
                 e.Handled = true;
@@ -159,7 +159,20 @@ namespace SoundKeyboard2012
             {
                 if (mLocation == value) return;
 
-                mLocation = value;
+                if (!Directory.Exists(value))
+                {
+                    App.SoundPacks = new SoundPacks();
+
+                    var sounds_dir = Path.Combine(Environment.GetCommandLineArgs()[0], "Sounds");
+                    foreach (var d in new DirectoryInfo(sounds_dir).GetDirectories())
+                        App.SoundPacks.Add(new SoundPack(d.FullName));
+
+                    mLocation = App.SoundPacks[0].Location;
+                }
+                else
+                {
+                    mLocation = value;
+                }
 
                 if (mSounds != null)
                     foreach (var sound in mSounds.Values)

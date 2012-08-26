@@ -86,13 +86,28 @@ namespace SoundKeyboard2012
             try
             {
                 SoundPacks = SoundPacks.Load(ConfigDir);
+
+                foreach (var s in SoundPacks)
+                {
+                    if (!Directory.Exists(s.Location))
+                        throw new DirectoryNotFoundException(s.Location);
+                }
             }
             catch
             {
                 SoundPacks = new SoundPacks();
-                var sounds_dir = Path.Combine(GetStartupPath(), "Sounds");
-                foreach (var d in new DirectoryInfo(sounds_dir).GetDirectories())
-                    SoundPacks.Add(new SoundPack(d.FullName));
+
+                try
+                {
+                    var sounds_dir = Path.Combine(GetStartupPath(), "Sounds");
+                    foreach (var d in new DirectoryInfo(sounds_dir).GetDirectories())
+                        SoundPacks.Add(new SoundPack(d.FullName));
+                }
+                catch
+                {
+                    MessageBox.Show("初期化エラー。再インストールが必要です。アプリケーションは終了します");
+                    App.Current.Shutdown();
+                }
             }
 
             // 03. Load SoundEngine
