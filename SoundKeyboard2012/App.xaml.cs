@@ -158,7 +158,7 @@ namespace SoundKeyboard2012
             // 06. Register Hotkeys
 
             mHotKeyMute = new HotKey(
-                Key.S, KeyModifier.Win,
+                Key.X, KeyModifier.Win,
                 (_) => { SoundEngine.MuteEnabled = !SoundEngine.MuteEnabled; }
             );
 
@@ -204,7 +204,7 @@ namespace SoundKeyboard2012
             item = new Forms.ToolStripSeparator();
             mContextMenuStrip.Items.Add(item);
 
-            item = new Forms.ToolStripMenuItem("ミュート") { Checked = SoundEngine.MuteEnabled, ShortcutKeyDisplayString = "Windows + S", };
+            item = new Forms.ToolStripMenuItem("ミュート") { Checked = SoundEngine.MuteEnabled, ShortcutKeyDisplayString = "Windows + X", };
             item.Click += new EventHandler(ToggleMuteEnabled);
             mContextMenuStrip.Items.Add(item);
 

@@ -8,6 +8,8 @@ using System.Windows.Input;
 using System.IO;
 using System.Xml.Serialization;
 using System.ComponentModel;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace SoundKeyboard2012
 {
@@ -27,11 +29,51 @@ namespace SoundKeyboard2012
                 += new EventHandler<GlobalKeyEventArgs>(GlobalKeybordMonitor_KeyUp);
         }
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern IntPtr GetDesktopWindow();
+
+        internal string GetFileNameToSave(string location, string prefix, string extension)
+        {
+            var filename = Path.Combine(location, prefix + extension);
+            var i = 0;
+
+            while (File.Exists(filename))
+            {
+                filename = Path.Combine(location,
+                    string.Format("{0} ({1}){2}", prefix, ++i, extension));
+            }
+
+            return filename;
+        }
+
+        readonly string location = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                "スクリーンショット");
+        const string prefix = "スクリーンショット";
+        const string extension = ".png";
+
         private void GlobalKeybordMonitor_KeyDown(object sender, GlobalKeyEventArgs e)
         {
             if (mPressedKeys.Contains(e.KeyData)) return;
 
             var k = e.KeyData.ToString().ToLower();
+
+            #region Windows 8 用のおまけ機能
+            if (e.KeyData == Key.O && mPressedKeys.Contains(Key.LWin))
+            {
+                var rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Image image = new System.Drawing.Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+
+                using (var g = System.Drawing.Graphics.FromImage(image))
+                {
+                    g.CopyFromScreen(rect.X, rect.Y, 0, 0, rect.Size, CopyPixelOperation.SourceCopy);
+                }
+                image.Save(GetFileNameToSave(location, prefix, extension), ImageFormat.Png);
+
+                k = "SnapShot".ToLower();
+                e.Handled = true;
+            }
+            #endregion
 
             if (!MuteEnabled)
             {
